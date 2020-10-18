@@ -58,7 +58,13 @@
 
         public function getitems($resid){
             $this->db->select('*');
-            $query = $this->db->getget_where("item", array('restaurant_id' => $resid));
+            $query = $this->db->get_where("item", array('restaurant_id' => $resid));
+            return $query->result();
+        }
+
+        public function getAllRestaurants(){
+            $this->db->select('id, name, phone');
+            $query = $this->db->get("restaurant");
             return $query->result();
         }
     }

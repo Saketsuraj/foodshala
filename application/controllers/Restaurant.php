@@ -107,4 +107,27 @@ class Restaurant extends CI_Controller
             
         echo json_encode($response);
     }
+
+    public function all(){
+        $data = $this->admin->getAllRestaurants();
+
+        foreach($data as $res){
+            $res->items = $this->admin->getitems($res->id);
+        }
+
+        if ($data) {
+            $response = array(
+                "status" => true,
+                "data" => $data,
+                "message" => "Restaurants List"
+            );
+        } else {
+            $response = array(
+                "status" => false,
+                "message" => "Error occurred while fetching"
+            );
+        }
+            
+        echo json_encode($response);
+    }
 }
