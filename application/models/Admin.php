@@ -44,9 +44,21 @@
             return $query;
         }
 
+        public function restaurantLogin($data){
+            $this->db->select('id, name, email, phone');
+            $query = $this->db->get_where('restaurant', array('phone' => $data['phone'], 'password' => $data['password']))->row();
+            return $query;
+        }
+
         public function getCustomerProfile($id){
             $this->db->select('name, email, phone, preference');
             $query = $this->db->get_where("customer", array('id' => $id));
             return $query->row();
+        }
+
+        public function getitems($resid){
+            $this->db->select('*');
+            $query = $this->db->getget_where("item", array('restaurant_id' => $resid));
+            return $query->result();
         }
     }

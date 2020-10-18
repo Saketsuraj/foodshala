@@ -22,21 +22,21 @@ class Restaurant extends CI_Controller
                 "message" => "Phone number missing"
             );
         } else {
-            if ($this->admin->checkIfUserExists($_POST['phone'], 'customer')) {
+            if ($this->admin->checkIfUserExists($_POST['phone'], 'restaurant')) {
                 $response = array(
                     "status" => false,
-                    "message" => "Customer already exists!"
+                    "message" => "Restaurant already exists!"
                 );
             } else {
                 $_POST['password'] = $this->admin->crypt($_POST['password'], 'e');
-                $data = $this->admin->addData($_POST, "customer");
+                $data = $this->admin->addData($_POST, "restaurant");
 
                 if ($data) {
                     $response = array(
                         "status" => true,
                         "phone" => $_POST['phone'],
                         "name" => $_POST['name'],
-                        "message" => "Customer successfully registered!"
+                        "message" => "Restaurant successfully registered!"
                     );
                 } else {
                     $response = array(
@@ -52,7 +52,7 @@ class Restaurant extends CI_Controller
     public function login(){
         $_POST['password'] = $this->admin->crypt($_POST['password'], 'e');
 
-        $data = $this->admin->customerLogin($_POST);  
+        $data = $this->admin->restaurantLogin($_POST);  
 
         if($data){
 
@@ -68,5 +68,43 @@ class Restaurant extends CI_Controller
         else{
             echo json_encode(['status' => false, 'message' => 'Unsuccessful Login']);
         }
+    }
+
+    public function additem(){
+       
+        $data = $this->admin->addData($_POST, "item");
+
+        if ($data) {
+            $response = array(
+                "status" => true,
+                "message" => "Item added successfully"
+            );
+        } else {
+            $response = array(
+                "status" => false,
+                "message" => "Error occurred while adding"
+            );
+        }
+            
+        echo json_encode($response);
+    }
+
+    public function getitems(){
+        $data = $this->admin->getitems($_POST['resid']);
+
+        if ($data) {
+            $response = array(
+                "status" => true,
+                "data" => $data,
+                "message" => "Items list"
+            );
+        } else {
+            $response = array(
+                "status" => false,
+                "message" => "Error occurred while fetching"
+            );
+        }
+            
+        echo json_encode($response);
     }
 }
