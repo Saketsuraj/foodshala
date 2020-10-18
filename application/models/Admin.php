@@ -67,4 +67,18 @@
             $query = $this->db->get("restaurant");
             return $query->result();
         }
+
+        public function getAllOrders($id){
+            $this->db->select('o.id, o.items, c.name, c.phone');
+            $this->db->from('orders as o, customer as c, restaurant as r');
+            $this->db->where('o.customer_id = c.id and r.id='.$id);
+            $query = $this->db->get();
+            return $query->result();
+        }
+
+        public function getitembyid($id){
+            $this->db->select('*');
+            $query = $this->db->get_where("item", array('id' => $id));
+            return $query->result();
+        }
     }

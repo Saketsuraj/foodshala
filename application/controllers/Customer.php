@@ -69,4 +69,22 @@ class Customer extends CI_Controller
             echo json_encode(['status' => false, 'message' => 'Unsuccessful Login']);
         }
     }
+
+    public function order(){
+        $data = $this->admin->addData($_POST, "orders");
+
+        if ($data) {
+            $response = array(
+                "status" => true,
+                "message" => "Order created successfully"
+            );
+        } else {
+            $response = array(
+                "status" => false,
+                "message" => "Error occurred while adding"
+            );
+        }
+            
+        echo json_encode($response);
+    }
 }

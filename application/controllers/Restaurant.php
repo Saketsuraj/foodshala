@@ -130,4 +130,32 @@ class Restaurant extends CI_Controller
             
         echo json_encode($response);
     }
+
+    public function allorders(){
+        $data = $this->admin->getAllOrders($_POST['resid']);
+        if(count($data) > 0){
+            
+            foreach($data as $o){
+                $items = explode(",", $o->items);
+                $itemData = array();
+                foreach($items as $i){
+                    $itemData[] = $this->admin->getitembyid($i);
+                }
+                $o->items = $itemData;
+            }
+            $response = array(
+                "status" => true,
+                "data" => $data,
+                "message" => "Orders list"
+            );
+        }
+        else{
+            $response = array(
+                "status" => false,
+                "message" => "No orders available"
+            );
+        }
+
+        echo json_encode($response);
+    }
 }
